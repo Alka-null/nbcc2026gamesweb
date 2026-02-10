@@ -40,7 +40,8 @@ export default function JigsawUploader() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:8000/api/jigsaw/upload/", {
+      // const res = await fetch("http://localhost:8000/api/jigsaw/upload/", {
+      const res = await fetch("https://nbcc2026gamesbackend.onrender.com/api/jigsaw/upload/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pieces }),

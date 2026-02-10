@@ -15,7 +15,8 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:8000/api/auth/code-login/", {
+      // const res = await fetch("http://localhost:8000/api/auth/code-login/", {
+      const res = await fetch("https://nbcc2026gamesbackend.onrender.com/api/auth/code-login/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ unique_code: code }),

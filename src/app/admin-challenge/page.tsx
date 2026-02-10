@@ -13,7 +13,8 @@ export default function AdminChallengePage() {
     setLoading(true);
     setResult(null);
     try {
-      const res = await fetch("http://localhost:8000/api/gameplay/start_challenge/", {
+      // const res = await fetch("http://localhost:8000/api/gameplay/start_challenge/", {
+      const res = await fetch("https://nbcc2026gamesbackend.onrender.com/api/gameplay/start_challenge/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: challengeName }),
@@ -36,7 +37,8 @@ export default function AdminChallengePage() {
   async function fetchChallenges() {
     setFetching(true);
     try {
-      const res = await fetch("http://localhost:8000/api/gameplay/challenges/");
+      // const res = await fetch("http://localhost:8000/api/gameplay/challenges/");
+      const res = await fetch("https://nbcc2026gamesbackend.onrender.com/api/gameplay/challenges/");
       const data = await res.json();
       setChallenges(data.challenges || []);
     } catch {

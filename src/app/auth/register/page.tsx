@@ -4,7 +4,6 @@ import { useState } from "react";
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [uniqueCode, setUniqueCode] = useState<string | null>(null);
@@ -16,13 +15,13 @@ export default function RegisterPage() {
     setUniqueCode(null);
 
     try {
-      const res = await fetch("http://localhost:8000/api/auth/register/", {
+      // const res = await fetch("http://localhost:8000/api/auth/register/", {
+      const res = await fetch("https://nbcc2026gamesbackend.onrender.com/api/auth/register/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
-          location: location.trim(),
         }),
       });
 
@@ -54,7 +53,6 @@ export default function RegisterPage() {
   function handleReset() {
     setName("");
     setEmail("");
-    setLocation("");
     setUniqueCode(null);
     setError("");
   }
@@ -79,23 +77,6 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your full name"
-                className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
-                required
-                minLength={1}
-                maxLength={120}
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label htmlFor="location" className="font-semibold text-gray-700">
-                Location <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="location"
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Enter your location"
                 className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
                 required
                 minLength={1}

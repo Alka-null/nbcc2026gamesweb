@@ -53,7 +53,8 @@ export default function QuizGamePage() {
   async function fetchGameSession(unique_code: string, questions: Question[]) {
     try {
       console.log("Calling /api/gameplay/game_session/", { unique_code });
-      const sessionRes = await fetch("http://localhost:8000/api/gameplay/game_session/", {
+      // const sessionRes = await fetch("http://localhost:8000/api/gameplay/game_session/", {
+      const sessionRes = await fetch("https://nbcc2026gamesbackend.onrender.com/api/gameplay/game_session/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ unique_code }),
@@ -98,7 +99,8 @@ export default function QuizGamePage() {
     setCompletionMessage("");
     try {
       // Use the correct code login endpoint
-      const res = await fetch("http://localhost:8000/api/auth/code-login/", {
+      // const res = await fetch("http://localhost:8000/api/auth/code-login/", {
+      const res = await fetch("https://nbcc2026gamesbackend.onrender.com/api/auth/code-login/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ unique_code: code }),
@@ -113,7 +115,8 @@ export default function QuizGamePage() {
       setIsLoggedIn(true);
       
       // Fetch all questions after login
-      const qRes = await fetch("http://localhost:8000/api/gameplay/quiz_questions/");
+      // const qRes = await fetch("http://localhost:8000/api/gameplay/quiz_questions/");
+      const qRes = await fetch("https://nbcc2026gamesbackend.onrender.com/api/gameplay/quiz_questions/");
       if (!qRes.ok) throw new Error("Failed to load questions");
       const qData = await qRes.json();
       setQuestions(qData.questions);
@@ -144,7 +147,8 @@ export default function QuizGamePage() {
         time_taken: timeTaken,
         challenge_id: challengeId,
       });
-      const res = await fetch("http://localhost:8000/api/gameplay/submit_answer/", {
+      // const res = await fetch("http://localhost:8000/api/gameplay/submit_answer/", {
+      const res = await fetch("https://nbcc2026gamesbackend.onrender.com/api/gameplay/submit_answer/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -225,7 +229,8 @@ export default function QuizGamePage() {
               className="bg-gradient-to-r from-green-600 to-lime-400 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:scale-105 transition-transform duration-200 animate-bounce"
               onClick={async () => {
                 try {
-                  await fetch("http://localhost:8000/api/gameplay/add_leaderboard_participant/", {
+                  // await fetch("http://localhost:8000/api/gameplay/add_leaderboard_participant/", {
+                  await fetch("https://nbcc2026gamesbackend.onrender.com/api/gameplay/add_leaderboard_participant/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ unique_code: userId }),
