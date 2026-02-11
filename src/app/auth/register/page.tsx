@@ -41,6 +41,9 @@ export default function RegisterPage() {
         throw new Error("Registration succeeded but no code was returned");
       }
       
+      // Save unique code to localStorage for feedback form
+      localStorage.setItem("user_unique_code", code);
+      
       setUniqueCode(code);
     } catch (err: any) {
       console.error("Registration error:", err);
