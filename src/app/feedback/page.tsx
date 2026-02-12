@@ -10,16 +10,11 @@ export default function FeedbackPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [codeInput, setCodeInput] = useState("");
 
   useEffect(() => {
     const savedCode = localStorage.getItem("user_unique_code");
     if (savedCode) {
       setUniqueCode(savedCode);
-      setShowLogin(false);
-    } else {
-      setShowLogin(true);
     }
   }, []);
 
@@ -33,7 +28,7 @@ export default function FeedbackPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          unique_code: uniqueCode.trim(),
+          unique_code: uniqueCode.trim() || "anonymous",
           digital_sales_tool: digitalSalesTool.trim(),
           what_works: whatWorks.trim(),
           what_is_confusing: whatIsConfusing.trim(),
@@ -56,7 +51,6 @@ export default function FeedbackPage() {
 
   const [submissionResponse, setSubmissionResponse] = useState<{ success: boolean; message: string; feedback_id?: number } | null>(null);
   function handleReset() {
-    setUniqueCode("");
     setDigitalSalesTool("");
     setWhatWorks("");
     setWhatIsConfusing("");
@@ -64,42 +58,6 @@ export default function FeedbackPage() {
     setSubmitted(false);
     setError("");
     setSubmissionResponse(null);
-  }
-
-  if (showLogin) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center animate-fade-in">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Enter Your Code</h1>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              if (codeInput.trim()) {
-                localStorage.setItem("user_unique_code", codeInput.trim());
-                setUniqueCode(codeInput.trim());
-                setShowLogin(false);
-              }
-            }}
-            className="flex flex-col gap-4"
-          >
-            <input
-              type="text"
-              value={codeInput}
-              onChange={e => setCodeInput(e.target.value)}
-              placeholder="Enter your unique code"
-              className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all"
-              required
-            />
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-green-600 to-lime-400 text-white px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform duration-200"
-            >
-              Continue
-            </button>
-          </form>
-        </div>
-      </div>
-    );
   }
 
   if (submitted && submissionResponse) {
