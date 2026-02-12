@@ -23,6 +23,7 @@ export default function ConditionalNavbar() {
       <Link href="/qr-generator">QR Generator</Link>
       <Link href="/quiz-game">Quiz Game</Link>
       <Link href="/admin-challenge">Admin Challenge</Link>
+      <Link href="/feedback-list">Feedbacks</Link>
       <Link href="/auth/login" className="ml-auto">Admin Login</Link>
       <Link href="/auth/logout">Logout</Link>
     </nav>
