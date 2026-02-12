@@ -6,7 +6,7 @@ export default function ConditionalNavbar() {
   const pathname = usePathname();
   
   // Hide navbar on public-facing routes
-  const publicRoutes = ["/quiz-game", "/auth/register", "/auth/login", "/feedback"];
+  const publicRoutes = ["/quiz-game", "/auth/register", "/auth/login", "/feedback", "/feedback-list"];
   const shouldHideNavbar = publicRoutes.some(route => pathname?.startsWith(route));
 
   if (shouldHideNavbar) {

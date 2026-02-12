@@ -78,7 +78,7 @@ export default function MainWrapper({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   
   // Public routes that don't need the default admin layout padding
-  const publicRoutes = ["/quiz-game", "/auth/register", "/auth/login", "/feedback"];
+  const publicRoutes = ["/quiz-game", "/auth/register", "/auth/login", "/feedback", "/feedback-list"];
   const isPublicRoute = publicRoutes.some(route => pathname?.startsWith(route));
 
   if (isPublicRoute) {

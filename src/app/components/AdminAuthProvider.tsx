@@ -56,7 +56,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   // Public routes that don't require admin login
-  const publicRoutes = ["/quiz-game", "/auth/register", "/auth/login", "/feedback"];
+  const publicRoutes = ["/quiz-game", "/auth/register", "/auth/login", "/feedback", "/feedback-list"];
   const isPublicRoute = publicRoutes.some(route => pathname?.startsWith(route));
 
   useEffect(() => {

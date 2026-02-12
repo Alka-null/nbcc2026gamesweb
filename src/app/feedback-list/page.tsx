@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import RequireAdmin from "../auth/require-admin";
+// import RequireAdmin from "../auth/require-admin"; // temporarily disabled
 
 interface Feedback {
   id: number;
@@ -60,7 +60,7 @@ export default function FeedbackListPage() {
   }
 
   return (
-    <RequireAdmin>
+    // <RequireAdmin> temporarily disabled
       <div className="max-w-[1600px]">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <div>
@@ -148,6 +148,6 @@ export default function FeedbackListPage() {
           </div>
         )}
       </div>
-    </RequireAdmin>
+    // </RequireAdmin>
   );
 }
