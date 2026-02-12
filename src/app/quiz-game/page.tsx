@@ -114,6 +114,9 @@ export default function QuizGamePage() {
       setUserId(code);
       setIsLoggedIn(true);
       
+      // Save unique code to localStorage for display badge & feedback
+      localStorage.setItem("user_unique_code", code);
+      
       // Fetch all questions after login
       // const qRes = await fetch("http://localhost:8000/api/gameplay/quiz_questions/");
       const qRes = await fetch("https://nbcc2026gamesbackend.onrender.com/api/gameplay/quiz_questions/");
