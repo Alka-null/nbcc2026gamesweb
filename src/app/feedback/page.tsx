@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 export default function FeedbackPage() {
   const [uniqueCode, setUniqueCode] = useState("");
+  const [digitalSalesTool, setDigitalSalesTool] = useState("");
   const [whatWorks, setWhatWorks] = useState("");
   const [whatIsConfusing, setWhatIsConfusing] = useState("");
   const [whatCanBeBetter, setWhatCanBeBetter] = useState("");
@@ -33,6 +34,7 @@ export default function FeedbackPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           unique_code: uniqueCode.trim(),
+          digital_sales_tool: digitalSalesTool.trim(),
           what_works: whatWorks.trim(),
           what_is_confusing: whatIsConfusing.trim(),
           what_can_be_better: whatCanBeBetter.trim(),
@@ -55,6 +57,7 @@ export default function FeedbackPage() {
   const [submissionResponse, setSubmissionResponse] = useState<{ success: boolean; message: string; feedback_id?: number } | null>(null);
   function handleReset() {
     setUniqueCode("");
+    setDigitalSalesTool("");
     setWhatWorks("");
     setWhatIsConfusing("");
     setWhatCanBeBetter("");
@@ -124,74 +127,73 @@ export default function FeedbackPage() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 p-4 py-8">
       <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-8 animate-fade-in">
         <h1 className="text-4xl font-extrabold mb-2 text-center bg-gradient-to-r from-green-600 to-lime-400 bg-clip-text text-transparent">
-          Feedback Form
+          Your Feedback Is Gold to us
         </h1>
         <p className="text-gray-600 text-center mb-8">
-          Help us improve! Share your experience with our games.
+          Before you go, please share your thoughts - your feedback helps us improve and serve you better.
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          {/* Unique Code */}
+          {/* 1. Select Digital Sales Tool */}
           <div className="flex flex-col gap-2">
-            <label htmlFor="uniqueCode" className="font-semibold text-gray-700">
-              Your Unique Code <span className="text-red-500">*</span>
+            <label htmlFor="digitalSalesTool" className="font-semibold text-gray-700">
+              1. Select Digital Sales Tool <span className="text-red-500">*</span>
             </label>
-            <input
-              id="uniqueCode"
-              type="text"
-              value={uniqueCode}
-              onChange={(e) => setUniqueCode(e.target.value)}
-              placeholder="Enter your unique code"
-              className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all"
+            <select
+              id="digitalSalesTool"
+              value={digitalSalesTool}
+              onChange={(e) => setDigitalSalesTool(e.target.value)}
+              className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all bg-white"
               required
-            />
-            {uniqueCode && (
-              <p className="text-sm text-gray-500">
-                ✓ Code loaded from your registration
-              </p>
-            )}
+            >
+              <option value="" disabled>Select a tool...</option>
+              <option value="SEM">SEM</option>
+              <option value="Asset Manager">Asset Manager</option>
+              <option value="QuickDrinks">QuickDrinks</option>
+              <option value="DMS">DMS</option>
+            </select>
           </div>
 
-          {/* What works? */}
+          {/* 2. What do you value most about the app? */}
           <div className="flex flex-col gap-2">
             <label htmlFor="whatWorks" className="font-semibold text-gray-700">
-              What works? <span className="text-red-500">*</span>
+              2. What do you value most about the app? <span className="text-red-500">*</span>
             </label>
             <textarea
               id="whatWorks"
               value={whatWorks}
               onChange={(e) => setWhatWorks(e.target.value)}
-              placeholder="Tell us what worked well for you..."
+              placeholder="Share what you value most..."
               className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all min-h-[120px]"
               required
             />
           </div>
 
-          {/* What is confusing? */}
-          <div className="flex flex-col gap-2">
-            <label htmlFor="whatIsConfusing" className="font-semibold text-gray-700">
-              What is confusing? <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              id="whatIsConfusing"
-              value={whatIsConfusing}
-              onChange={(e) => setWhatIsConfusing(e.target.value)}
-              placeholder="What parts were unclear or confusing..."
-              className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all min-h-[120px]"
-              required
-            />
-          </div>
-
-          {/* What can be done better? */}
+          {/* 3. What one improvement would make the app better for you? */}
           <div className="flex flex-col gap-2">
             <label htmlFor="whatCanBeBetter" className="font-semibold text-gray-700">
-              What can be done better? <span className="text-red-500">*</span>
+              3. What one improvement would make the app better for you? <span className="text-red-500">*</span>
             </label>
             <textarea
               id="whatCanBeBetter"
               value={whatCanBeBetter}
               onChange={(e) => setWhatCanBeBetter(e.target.value)}
-              placeholder="Share your ideas for improvement..."
+              placeholder="Suggest one improvement..."
+              className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all min-h-[120px]"
+              required
+            />
+          </div>
+
+          {/* 4. What immediate digital/RTC support would have the biggest impact on your performance? */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="whatIsConfusing" className="font-semibold text-gray-700">
+              4. What immediate digital/RTC support would have the biggest impact on your performance? <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="whatIsConfusing"
+              value={whatIsConfusing}
+              onChange={(e) => setWhatIsConfusing(e.target.value)}
+              placeholder="Describe the support that would help you most..."
               className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all min-h-[120px]"
               required
             />
