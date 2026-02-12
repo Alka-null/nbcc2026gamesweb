@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 
 export default function FeedbackPage() {
   const [uniqueCode, setUniqueCode] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [clusterSalesArea, setClusterSalesArea] = useState("");
   const [digitalSalesTool, setDigitalSalesTool] = useState("");
   const [whatWorks, setWhatWorks] = useState("");
   const [whatIsConfusing, setWhatIsConfusing] = useState("");
@@ -29,6 +31,8 @@ export default function FeedbackPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           unique_code: uniqueCode.trim() || "anonymous",
+          full_name: fullName.trim(),
+          cluster_sales_area: clusterSalesArea.trim(),
           digital_sales_tool: digitalSalesTool.trim(),
           what_works: whatWorks.trim(),
           what_is_confusing: whatIsConfusing.trim(),
@@ -51,6 +55,8 @@ export default function FeedbackPage() {
 
   const [submissionResponse, setSubmissionResponse] = useState<{ success: boolean; message: string; feedback_id?: number } | null>(null);
   function handleReset() {
+    setFullName("");
+    setClusterSalesArea("");
     setDigitalSalesTool("");
     setWhatWorks("");
     setWhatIsConfusing("");
@@ -92,10 +98,42 @@ export default function FeedbackPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          {/* 1. Select Digital Sales Tool */}
+          {/* 1. Full Name */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="fullName" className="font-semibold text-gray-700">
+              1. What is your Full Name? <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="fullName"
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="Enter your full name"
+              className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all"
+              required
+            />
+          </div>
+
+          {/* 2. Cluster/Sales Area */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="clusterSalesArea" className="font-semibold text-gray-700">
+              2. Input your Cluster/Sales Area <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="clusterSalesArea"
+              type="text"
+              value={clusterSalesArea}
+              onChange={(e) => setClusterSalesArea(e.target.value)}
+              placeholder="Enter your cluster or sales area"
+              className="border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all"
+              required
+            />
+          </div>
+
+          {/* 3. Select Digital Sales Tool */}
           <div className="flex flex-col gap-2">
             <label htmlFor="digitalSalesTool" className="font-semibold text-gray-700">
-              1. Select Digital Sales Tool <span className="text-red-500">*</span>
+              3. Select Digital Sales Tool <span className="text-red-500">*</span>
             </label>
             <select
               id="digitalSalesTool"
@@ -112,10 +150,10 @@ export default function FeedbackPage() {
             </select>
           </div>
 
-          {/* 2. What do you value most about the app? */}
+          {/* 4. What do you value most about the app? */}
           <div className="flex flex-col gap-2">
             <label htmlFor="whatWorks" className="font-semibold text-gray-700">
-              2. What do you value most about the app? <span className="text-red-500">*</span>
+              4. What do you value most about the app? <span className="text-red-500">*</span>
             </label>
             <textarea
               id="whatWorks"
@@ -127,10 +165,10 @@ export default function FeedbackPage() {
             />
           </div>
 
-          {/* 3. What one improvement would make the app better for you? */}
+          {/* 5. What one improvement would make the app better for you? */}
           <div className="flex flex-col gap-2">
             <label htmlFor="whatCanBeBetter" className="font-semibold text-gray-700">
-              3. What one improvement would make the app better for you? <span className="text-red-500">*</span>
+              5. What one improvement would make the app better for you? <span className="text-red-500">*</span>
             </label>
             <textarea
               id="whatCanBeBetter"
@@ -142,10 +180,10 @@ export default function FeedbackPage() {
             />
           </div>
 
-          {/* 4. What immediate digital/RTC support would have the biggest impact on your performance? */}
+          {/* 6. What immediate digital/RTC support would have the biggest impact on your performance? */}
           <div className="flex flex-col gap-2">
             <label htmlFor="whatIsConfusing" className="font-semibold text-gray-700">
-              4. What immediate digital/RTC support would have the biggest impact on your performance? <span className="text-red-500">*</span>
+              6. What immediate digital/RTC support would have the biggest impact on your performance? <span className="text-red-500">*</span>
             </label>
             <textarea
               id="whatIsConfusing"
