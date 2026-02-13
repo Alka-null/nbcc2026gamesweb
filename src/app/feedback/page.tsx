@@ -54,6 +54,7 @@ export default function FeedbackPage() {
   }
 
   const [submissionResponse, setSubmissionResponse] = useState<{ success: boolean; message: string; feedback_id?: number } | null>(null);
+
   function handleReset() {
     setFullName("");
     setClusterSalesArea("");

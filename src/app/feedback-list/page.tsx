@@ -2,6 +2,68 @@
 import { useState, useEffect } from "react";
 // import RequireAdmin from "../auth/require-admin"; // temporarily disabled
 
+function downloadAsCSV(data: Feedback[]) {
+  if (!data.length) return alert("No feedback data to download.");
+  const headers = [
+    "Feedback ID", "Full Name", "Cluster/Sales Area", "Digital Sales Tool",
+    "What do you value most?", "What improvement?",
+    "Digital/RTC support impact?", "Unique Code", "Submitted At"
+  ];
+  const rows = data.map((item) => [
+    item.id ?? "",
+    item.full_name ?? "",
+    item.cluster_sales_area ?? "",
+    item.digital_sales_tool ?? "",
+    item.what_works ?? "",
+    item.what_can_be_better ?? "",
+    item.what_is_confusing ?? "",
+    item.unique_code ?? "",
+    item.created_at ?? "",
+  ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(","));
+  const csv = [headers.join(","), ...rows].join("\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `feedback_${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function downloadAsWord(data: Feedback[]) {
+  if (!data.length) return alert("No feedback data to download.");
+  let html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word'><head><meta charset='utf-8'><title>Feedback Report</title></head><body>`;
+  html += `<h1 style="text-align:center;color:#16a34a;">Feedback Report</h1>`;
+  html += `<p style="text-align:center;color:#666;">Generated on ${new Date().toLocaleDateString()}</p><hr/>`;
+  data.forEach((item, i) => {
+    html += `<div style="margin-bottom:20px;page-break-inside:avoid;">`;
+    html += `<h3 style="color:#16a34a;">Response #${i + 1} ${item.full_name ? '— ' + item.full_name : ''}</h3>`;
+    html += `<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:14px;">`;
+    const fields: [string, string][] = [
+      ["Full Name", item.full_name],
+      ["Cluster/Sales Area", item.cluster_sales_area],
+      ["Digital Sales Tool", item.digital_sales_tool],
+      ["What do you value most?", item.what_works],
+      ["What improvement?", item.what_can_be_better],
+      ["Digital/RTC support impact?", item.what_is_confusing],
+      ["Unique Code", item.unique_code],
+      ["Submitted At", item.created_at],
+    ];
+    fields.forEach(([label, val]) => {
+      html += `<tr><td style="font-weight:bold;background:#f3f4f6;width:35%;">${label}</td><td>${val ?? ""}</td></tr>`;
+    });
+    html += `</table></div>`;
+  });
+  html += `</body></html>`;
+  const blob = new Blob([html], { type: "application/msword" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `feedback_${new Date().toISOString().slice(0, 10)}.doc`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 interface Feedback {
   id: number;
   unique_code: string;
@@ -76,6 +138,23 @@ export default function FeedbackListPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="border border-gray-300 rounded-lg px-3 py-2 w-full sm:w-64 text-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent"
           />
+        </div>
+
+        <div className="flex gap-3 mb-6">
+          <button
+            type="button"
+            onClick={() => downloadAsCSV(filtered)}
+            className="flex items-center gap-2 bg-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors shadow"
+          >
+            📊 Download Excel
+          </button>
+          <button
+            type="button"
+            onClick={() => downloadAsWord(filtered)}
+            className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors shadow"
+          >
+            📄 Download Word
+          </button>
         </div>
 
         {loading && (
